@@ -4,7 +4,7 @@ import { GridProps, StudentProps } from "./types";
 import StudentCreationForm from "./StudentCreationForm";
 function Grid(props: GridProps) {
 	const [students, setStudents] = useState(props.elements);
-	function onAddStudent(event) {
+	function onAddStudent(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 		const stud: StudentProps = {
 			name: document.querySelector<HTMLInputElement>("#studentName")!.value,

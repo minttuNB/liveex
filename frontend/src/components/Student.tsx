@@ -1,8 +1,6 @@
 import Avatar from "./Avatar";
+import { StudentProps } from "./types";
 
-type StudentProps = {
-	name: string;
-};
 function Student(props: StudentProps) {
 	return (
 		<>

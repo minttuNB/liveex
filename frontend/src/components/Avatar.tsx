@@ -1,6 +1,5 @@
-type AvatarProps = {
-	name: string;
-};
+import { AvatarProps } from "./types";
+
 function Avatar(props: AvatarProps) {
 	return (
 		<>

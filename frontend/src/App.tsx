@@ -1,6 +1,9 @@
+import { useState } from "react";
 import Grid from "./components/Grid";
+import Total from "./components/Total";
 import { StudentProps } from "./components/types";
-const students: StudentProps[] = [
+import StudentCreationForm from "./components/StudentCreationForm";
+const studentsArray: StudentProps[] = [
 	{
 		id: 0,
 		name: "Anders",
@@ -19,10 +22,21 @@ const students: StudentProps[] = [
 	},
 ];
 function App() {
+	const [students, setStudents] = useState(studentsArray);
+	function onAddStudent(event: React.FormEvent<HTMLFormElement>) {
+		event.preventDefault();
+		const stud: StudentProps = {
+			name: document.querySelector<HTMLInputElement>("#studentName")!
+				.value,
+		};
+		setStudents((students) => [...students, stud]);
+	}
 	return (
 		<>
 			<h1>Start</h1>
+			<Total total={students.length} />
 			<Grid elements={students}></Grid>
+			<StudentCreationForm onAddStudent={onAddStudent} />
 		</>
 	);
 }

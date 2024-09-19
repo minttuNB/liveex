@@ -18,7 +18,9 @@
 	--warning-color: #eab308; /* Yellow 500 */
 	--error-color: #ef4444; /* Red 500 */
 }
-
+*{
+	box-sizing: border-box;
+}
 body {
 	font-family: "Inter", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
 		"Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
@@ -27,4 +29,17 @@ body {
 	line-height: 1.5;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+}
+.studentGrid{
+	display: flex;
+	margin: auto;
+	flex-wrap: wrap;
+	gap: 1rem;
+}
+.student{
+	border-radius: 3rem;
+	background: var(--primary-color);
+	color: var(--text-color);
+	min-width: 20rem;
+	padding: 2rem;
 }

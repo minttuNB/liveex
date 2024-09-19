@@ -26,6 +26,7 @@ function App() {
 	function onAddStudent(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 		const stud: StudentProps = {
+			id: students.length+1,
 			name: document.querySelector<HTMLInputElement>("#studentName")!
 				.value,
 		};

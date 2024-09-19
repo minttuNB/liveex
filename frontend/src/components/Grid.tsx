@@ -1,11 +1,11 @@
 import Student from "./Student";
-import { GridProps } from "./types";
+import { GridProps, StudentProps } from "./types";
 function Grid(props: GridProps) {
 	return (
 		<>
 			<section className="studentGrid">
-				{props.elements.map((student) => (
-					<Student name={student.name} />
+				{props.elements.map((student: StudentProps) => (
+					<Student key={student.id} name={student.name} id={student.id} />
 				))}
 			</section>
 		</>

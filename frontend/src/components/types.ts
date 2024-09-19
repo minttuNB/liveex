@@ -1,5 +1,5 @@
 type StudentProps = {
-	id?: number;
+	id: number;
 	name: string;
 };
 type AvatarProps = {

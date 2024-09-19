@@ -1,3 +1,5 @@
+import { FormEventHandler } from "react";
+
 type StudentProps = {
 	id?: number;
 	name: string;
@@ -6,6 +8,9 @@ type AvatarProps = {
 	name: string;
 };
 type GridProps = {
-	elements: [{ name: string }] | StudentProps[];
+	elements: StudentProps[];
 };
-export type { StudentProps, AvatarProps, GridProps };
+type StudentCreationFormProps = {
+	onAddStudent: FormEventHandler<HTMLFormElement>;
+};
+export type { StudentProps, AvatarProps, GridProps, StudentCreationFormProps };

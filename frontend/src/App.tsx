@@ -5,38 +5,41 @@ import { StudentProps } from "./components/types";
 import StudentCreationForm from "./components/StudentCreationForm";
 const studentsArray: StudentProps[] = [
 	{
-		id: 0,
+		id: "0",
 		name: "Anders",
 	},
 	{
-		id: 1,
+		id: "1",
 		name: "Espen",
 	},
 	{
-		id: 2,
+		id: "2",
 		name: "Ada",
 	},
 	{
-		id: 3,
+		id: "3",
 		name: "Aine",
 	},
 ];
 function App() {
-	const [students, setStudents] = useState(studentsArray);
+	const [students, setStudents] = useState(studentsArray ?? []);
 	function onAddStudent(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 		const stud: StudentProps = {
-			id: students.length+1,
+			id: crypto.randomUUID(),
 			name: document.querySelector<HTMLInputElement>("#studentName")!
 				.value,
 		};
 		setStudents((students) => [...students, stud]);
 	}
+	function onRemoveStudent(id: string){
+		setStudents((students) => students.filter(student => student.id !== id));
+	}
 	return (
 		<>
 			<h1>Start</h1>
 			<Total total={students.length} />
-			<Grid elements={students}></Grid>
+			<Grid elements={students} onRemoveStudent={onRemoveStudent}></Grid>
 			<StudentCreationForm onAddStudent={onAddStudent} />
 		</>
 	);

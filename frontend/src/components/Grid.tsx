@@ -5,7 +5,7 @@ function Grid(props: GridProps) {
 		<>
 			<section className="studentGrid">
 				{props.elements.map((student: StudentProps) => (
-					<Student key={student.id} name={student.name} id={student.id} />
+					<Student key={student.id} name={student.name} id={student.id} onRemoveStudent={props.onRemoveStudent}/>
 				))}
 			</section>
 		</>

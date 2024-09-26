@@ -16,7 +16,7 @@ function Student(props: StudentProps) {
 		>
 			<Avatar name={props.name} />
 			<h2>{props.name}</h2>
-			<button className={className}>X</button>
+			<button className={className} onClick={()=>props.onRemoveStudent!(props.id)}>X</button>
 		</article>
 	);
 }

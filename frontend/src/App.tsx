@@ -39,7 +39,9 @@ function App() {
 		<>
 			<h1>Start</h1>
 			<Total total={students.length} />
-			<Grid elements={students} onRemoveStudent={onRemoveStudent}></Grid>
+			<Grid elements={students} onRemoveStudent={onRemoveStudent}>
+				<h1>Studenter</h1>
+			</Grid>
 			<StudentCreationForm onAddStudent={onAddStudent} />
 		</>
 	);

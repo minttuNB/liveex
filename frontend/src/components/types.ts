@@ -14,6 +14,6 @@ type StudentCreationFormProps = {
 	onAddStudent: (event: React.FormEvent<HTMLFormElement>) => void;
 };
 type TotalProps = {
-	total: number;
+	total: Readonly<number>;
 };
 export type { StudentProps, AvatarProps, GridProps, StudentCreationFormProps, TotalProps };

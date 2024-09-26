@@ -1,7 +1,6 @@
 type StudentProps = {
 	id: string;
 	name: string;
-	onRemoveStudent?: (id: string) => void;
 };
 type AvatarProps = {
 	name: string;

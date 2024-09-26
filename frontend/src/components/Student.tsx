@@ -2,7 +2,9 @@ import { useState } from "react";
 import Avatar from "./Avatar";
 import { StudentProps } from "./types";
 
-function Student(props: StudentProps) {
+function Student(props: StudentProps & {
+	onRemoveStudent?: (id: string) => void;
+}) {
 	const [hover, setHover] = useState(false);
 	let className = "delete";
 	if (hover) {

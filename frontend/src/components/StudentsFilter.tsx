@@ -12,8 +12,10 @@ export default function StudentsFilter(props: FilterProps<Student>) {
 			onChange={(event) => props.onFilterChange(event)}
 		>
 			<option>No filter</option>
-			{filterValues.map((initial) => (
-				<option value={initial}>{initial}</option>
+			{filterValues.map((filterValue) => (
+				<option key={filterValue} value={filterValue}>
+					{filterValue}
+				</option>
 			))}
 		</select>
 	);

@@ -24,7 +24,7 @@ const studentsArray: StudentProps[] = [
 ];
 function App() {
 	const [students, setStudents] = useState(studentsArray ?? []);
-	const [visibleStudents, setVisibleStudents] = useState(studentsArray ?? []);
+	const [currentFilter, setCurrentFilter] = useState("");
 	function onAddStudent(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 		const stud: StudentProps = {
@@ -36,26 +36,29 @@ function App() {
 	function onRemoveStudent(id: string) {
 		setStudents((students) => students.filter((student) => student.id !== id));
 	}
+	function onFilterChange(event: React.ChangeEvent<HTMLSelectElement>): void {
+		const value = event.target.value;
+		if (value !== "No filter") {
+			setCurrentFilter(value);
+		} else {
+			setCurrentFilter("");
+		}
+	}
 	return (
 		<>
 			<h1>Start</h1>
 			<Total total={students.length} />
-			<Grid elements={visibleStudents} onRemoveStudent={onRemoveStudent}>
+			<Grid
+				elements={
+					currentFilter !== ""
+						? students.filter((student) => student.name.toUpperCase().startsWith(currentFilter))
+						: students
+				}
+				onRemoveStudent={onRemoveStudent}
+			>
 				<h1>Studenter</h1>
 				<h2>Filter students list</h2>
-				<StudentsFilter
-					data={students}
-					onFilterChange={function (event: React.ChangeEvent<HTMLSelectElement>): void {
-						const value = event.target.value;
-						if (value !== "No filter") {
-							setVisibleStudents(
-								students.filter((student) => student.name.toUpperCase().startsWith(value))
-							);
-						} else {
-							setVisibleStudents(students);
-						}
-					}}
-				/>
+				<StudentsFilter data={students} onFilterChange={onFilterChange} />
 			</Grid>
 			<StudentCreationForm onAddStudent={onAddStudent} />
 		</>

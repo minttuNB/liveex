@@ -1,7 +1,9 @@
 import { FilterProps, StudentProps as Student } from "./types";
 
 export default function StudentsFilter(props: FilterProps<Student>) {
-	const filterValues = [...new Set(props.data.map((student: Student) => student.name.slice(0, 1).toUpperCase()))];
+	const filterValues = [
+		...new Set(props.data.map((student: Student) => student.name.slice(0, 1).toUpperCase())),
+	].sort();
 	return (
 		<select
 			name="studentsFilter"

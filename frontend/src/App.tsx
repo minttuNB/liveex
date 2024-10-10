@@ -3,7 +3,7 @@ import Grid from "./components/Grid";
 import Total from "./components/Total";
 import { StudentProps } from "./components/types";
 import StudentCreationForm from "./components/StudentCreationForm";
-import StudentsFilter from "./components/StudentsFilter";
+import StudentsFilter from "./components/Filter";
 import Student from "./components/Student";
 const studentsArray: StudentProps[] = [
 	{
@@ -26,6 +26,9 @@ const studentsArray: StudentProps[] = [
 function App() {
 	const [students, setStudents] = useState(studentsArray ?? []);
 	const [currentFilter, setCurrentFilter] = useState("");
+	const filterOptions = [
+		...new Set(students.map((student: StudentProps) => student.name.slice(0, 1).toUpperCase())),
+	].sort();
 	function onAddStudent(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 		const stud: StudentProps = {
@@ -51,7 +54,7 @@ function App() {
 			<Total total={students.length} />
 			<h1>Studenter</h1>
 			<h2>Filter students list</h2>
-			<StudentsFilter data={students} onFilterChange={onFilterChange} />
+			<StudentsFilter options={filterOptions} onFilterChange={onFilterChange} />
 			<Grid>
 				{(currentFilter !== ""
 					? students.filter((student) => student.name.toUpperCase().startsWith(currentFilter))

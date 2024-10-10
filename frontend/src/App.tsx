@@ -4,6 +4,7 @@ import Total from "./components/Total";
 import { StudentProps } from "./components/types";
 import StudentCreationForm from "./components/StudentCreationForm";
 import StudentsFilter from "./components/StudentsFilter";
+import Student from "./components/Student";
 const studentsArray: StudentProps[] = [
 	{
 		id: "0",
@@ -48,17 +49,16 @@ function App() {
 		<>
 			<h1>Start</h1>
 			<Total total={students.length} />
-			<Grid
-				elements={
-					currentFilter !== ""
-						? students.filter((student) => student.name.toUpperCase().startsWith(currentFilter))
-						: students
-				}
-				onRemoveStudent={onRemoveStudent}
-			>
-				<h1>Studenter</h1>
-				<h2>Filter students list</h2>
-				<StudentsFilter data={students} onFilterChange={onFilterChange} />
+			<h1>Studenter</h1>
+			<h2>Filter students list</h2>
+			<StudentsFilter data={students} onFilterChange={onFilterChange} />
+			<Grid>
+				{(currentFilter !== ""
+					? students.filter((student) => student.name.toUpperCase().startsWith(currentFilter))
+					: students
+				).map((student: StudentProps) => (
+					<Student key={student.id} name={student.name} id={student.id} onRemoveStudent={onRemoveStudent} />
+				))}
 			</Grid>
 			<StudentCreationForm onAddStudent={onAddStudent} />
 		</>

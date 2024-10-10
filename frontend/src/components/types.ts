@@ -5,10 +5,7 @@ type StudentProps = {
 type AvatarProps = {
 	name: string;
 };
-type GridProps = {
-	elements: StudentProps[];
-	onRemoveStudent: (id: string) => void;
-};
+type GridProps = object;
 type StudentCreationFormProps = {
 	onAddStudent: (event: React.FormEvent<HTMLFormElement>) => void;
 };

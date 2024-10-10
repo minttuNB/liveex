@@ -5,9 +5,14 @@ function Grid(props: Readonly<PropsWithChildren<GridProps>>) {
 	return (
 		<>
 			{props.children}
-			<section className="studentGrid">
+			<section className="grid">
 				{props.elements.map((student: StudentProps) => (
-					<Student key={student.id} name={student.name} id={student.id} onRemoveStudent={props.onRemoveStudent}/>
+					<Student
+						key={student.id}
+						name={student.name}
+						id={student.id}
+						onRemoveStudent={props.onRemoveStudent}
+					/>
 				))}
 			</section>
 		</>

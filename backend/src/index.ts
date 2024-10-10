@@ -22,11 +22,16 @@ const students = [
 const app = new Hono();
 app.use("*", cors());
 
-app.get("/", (c) => {
-	return c.text("Hello Hono!");
+app.get("/", (ctx) => {
+	return ctx.html("We are live!");
 });
 app.get("/api/students", async (ctx) => {
-	ctx.json(JSON.stringify(students));
+	return ctx.json(JSON.stringify(students));
+});
+app.put("/api/students", async (ctx) => {
+	let data = await ctx.req.json();
+	students.push({ id: students.length + 1, name: data.name });
+	return ctx.json({ message: "Added student successfully" });
 });
 const port = 3999;
 console.log(`Server is running on port ${port}`);

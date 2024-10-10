@@ -15,4 +15,8 @@ type StudentCreationFormProps = {
 type TotalProps = {
 	total: Readonly<number>;
 };
-export type { StudentProps, AvatarProps, GridProps, StudentCreationFormProps, TotalProps };
+type FilterProps<T> = {
+	data: T[];
+	onFilterChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+};
+export type { StudentProps, AvatarProps, GridProps, StudentCreationFormProps, TotalProps, FilterProps };

@@ -42,6 +42,10 @@ app.put("/api/students", async (ctx) => {
 app.delete("/api/students/:id", async (ctx) => {
 	let id = await ctx.req.param("id");
 	let studentsData = await students.read();
+	if (!studentsData.find((student) => student.id === id)) {
+		ctx.status(400);
+		return ctx.json({ success: false, error: "Inexistent student id" });
+	}
 	studentsData = studentsData.filter((student) => student.id !== id);
 	students.write(studentsData);
 	ctx.status(204);

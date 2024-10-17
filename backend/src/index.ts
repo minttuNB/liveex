@@ -3,8 +3,9 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import config from "./config/config";
 import { readFile, writeFile } from "fs/promises";
+import { UUID } from "crypto";
 type Student = {
-	id: number;
+	id: UUID;
 	name: string;
 };
 const students = {
@@ -17,6 +18,10 @@ const students = {
 		});
 	},
 };
+const validateName = (name: string) => {
+	name = name.trim();
+	return name.length > 4 && name.includes(" ") && name[name.length - 1] === "!";
+};
 const app = new Hono();
 app.use("*", cors());
 
@@ -28,13 +33,17 @@ app.get("/api/students", async (ctx) => {
 });
 app.put("/api/students", async (ctx) => {
 	let data = await ctx.req.json();
+	if (!validateName(data.name)) {
+		ctx.status(400);
+		return ctx.json({ success: false, error: "Invalid name" });
+	}
 	let studentsData = await students.read();
-	studentsData.push({ id: studentsData.length + 1, name: data.name });
+	studentsData.push({ id: crypto.randomUUID(), name: data.name });
 	students.write(studentsData);
-	return ctx.json({ message: "Added student successfully" });
+	return ctx.json({ success: true, message: "Added student successfully" });
 });
 app.delete("/api/students/:id", async (ctx) => {
-	let id = Number(await ctx.req.param("id"));
+	let id = await ctx.req.param("id");
 	let studentsData = await students.read();
 	studentsData = studentsData.filter((student) => student.id !== id);
 	students.write(studentsData);
@@ -43,9 +52,9 @@ app.delete("/api/students/:id", async (ctx) => {
 });
 app.patch("/api/students/:id", async (ctx) => {
 	let data = await ctx.req.json();
-	let id = Number(await ctx.req.param("id"));
+	let id = await ctx.req.param("id");
 	let studentsData = await students.read();
-	let student = studentsData.find((student) => Number(student.id) === id);
+	let student = studentsData.find((student) => student.id === id);
 	if (student) {
 		student.name = data.name;
 		students.write(studentsData);
@@ -53,7 +62,7 @@ app.patch("/api/students/:id", async (ctx) => {
 		return ctx.body(null);
 	} else {
 		ctx.status(400);
-		return ctx.json({ message: "Student with given id not found" });
+		return ctx.json({ success: false, message: "Student with given id not found" });
 	}
 });
 const port = config.port;

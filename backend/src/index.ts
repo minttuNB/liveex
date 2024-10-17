@@ -4,7 +4,7 @@ import { cors } from "hono/cors";
 import config from "./config/config";
 import { readFile, writeFile } from "fs/promises";
 import { validateName } from "./lib/validators";
-import { Student } from "./types";
+import { Result, Student } from "./types";
 const students = {
 	read: async () => {
 		return JSON.parse(await readFile("./src/data/students.json", "utf-8")) as Student[];
@@ -28,19 +28,19 @@ app.put("/api/students", async (ctx) => {
 	let data = await ctx.req.json();
 	if (!validateName(data.name)) {
 		ctx.status(400);
-		return ctx.json({ success: false, error: "Invalid name" });
+		return ctx.json<Result<Student>>({ success: false, error: "Invalid name" });
 	}
 	let studentsData = await students.read();
 	studentsData.push({ id: crypto.randomUUID(), name: data.name });
 	students.write(studentsData);
-	return ctx.json({ success: true, data: "Added student successfully" });
+	return ctx.json<Result<string>>({ success: true, data: "Added student successfully" });
 });
 app.delete("/api/students/:id", async (ctx) => {
 	let id = await ctx.req.param("id");
 	let studentsData = await students.read();
 	if (!studentsData.find((student) => student.id === id)) {
 		ctx.status(400);
-		return ctx.json({ success: false, error: "Inexistent student id" });
+		return ctx.json<Result<Student>>({ success: false, error: "Inexistent student id" });
 	}
 	studentsData = studentsData.filter((student) => student.id !== id);
 	students.write(studentsData);
@@ -59,7 +59,7 @@ app.patch("/api/students/:id", async (ctx) => {
 		return ctx.body(null);
 	} else {
 		ctx.status(400);
-		return ctx.json({ success: false, error: "Student with given id not found" });
+		return ctx.json<Result<Student>>({ success: false, error: "Student with given id not found" });
 	}
 });
 const port = config.port;

@@ -1,9 +1,2 @@
-type SuccessResponse = {
-	success: true;
-	data: string | object;
-};
-type FailureResponse = {
-	success: false;
-	error: Error;
-};
-export type { SuccessResponse, FailureResponse };
+type Result<T> = { success: true; data: T } | { success: false; error: string };
+export type { Result };

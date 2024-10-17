@@ -25,6 +25,20 @@ function App() {
 			setLoading(false);
 		}
 	}
+	async function patchStudentData(student: Partial<StudentProps>) {
+		const url = new URL(`${config.apiAddress}:${config.apiPort}/api/students/${student.id}`);
+		const response = await fetch(url, {
+			method: "PATCH",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ name: student.name }),
+		});
+		if (response.status === 400) {
+			alert(`An error has occured: ${(await response.json()).message}`);
+		}
+		fetchStudentData();
+	}
 	useEffect(() => {
 		fetchStudentData();
 	}, []);
@@ -43,6 +57,10 @@ function App() {
 	}
 	function onRemoveStudent(id: string) {
 		setStudents((students) => students.filter((student) => student.id !== id));
+	}
+	function onChangeName(event: React.FocusEvent<HTMLHeadingElement>, id: string) {
+		const newName = event.target.innerText;
+		patchStudentData({ id: id, name: newName.trim() });
 	}
 	function onFilterChange(event: React.ChangeEvent<HTMLSelectElement>): void {
 		const value = event.target.value;
@@ -74,6 +92,7 @@ function App() {
 							name={student.name}
 							id={student.id}
 							onRemoveStudent={onRemoveStudent}
+							onChangeName={onChangeName}
 						/>
 					))
 				)}

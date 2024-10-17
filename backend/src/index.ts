@@ -33,6 +33,14 @@ app.put("/api/students", async (ctx) => {
 	students.write(studentsData);
 	return ctx.json({ message: "Added student successfully" });
 });
+app.delete("/api/students/:id", async (ctx) => {
+	let id = Number(await ctx.req.param("id"));
+	let studentsData = await students.read();
+	studentsData = studentsData.filter((student) => student.id !== id);
+	students.write(studentsData);
+	ctx.status(204);
+	return ctx.body(null);
+});
 const port = config.port;
 console.log(`Server is running on port ${port}`);
 

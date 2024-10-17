@@ -41,6 +41,21 @@ app.delete("/api/students/:id", async (ctx) => {
 	ctx.status(204);
 	return ctx.body(null);
 });
+app.patch("/api/students/:id", async (ctx) => {
+	let data = await ctx.req.json();
+	let id = Number(await ctx.req.param("id"));
+	let studentsData = await students.read();
+	let student = studentsData.find((student) => student.id === id);
+	if (student) {
+		student.name = data.name;
+		students.write(studentsData);
+		ctx.status(204);
+		return ctx.body(null);
+	} else {
+		ctx.status(400);
+		return ctx.json({ message: "Student with given id not found" });
+	}
+});
 const port = config.port;
 console.log(`Server is running on port ${port}`);
 

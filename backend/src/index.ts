@@ -1,24 +1,22 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-const students = [
-	{
-		id: 0,
-		name: "Anders",
+import config from "./config/config";
+import { readFile, writeFile } from "fs/promises";
+type Student = {
+	id: number;
+	name: string;
+};
+const students = {
+	read: async () => {
+		return JSON.parse(await readFile("./src/data/students.json", "utf-8")) as Student[];
 	},
-	{
-		id: 1,
-		name: "Espen",
+	write: (data: Student[]) => {
+		writeFile("./src/data/students.json", JSON.stringify(data, null, 2), {
+			encoding: "utf-8",
+		});
 	},
-	{
-		id: 2,
-		name: "Ada",
-	},
-	{
-		id: 3,
-		name: "Aine",
-	},
-];
+};
 const app = new Hono();
 app.use("*", cors());
 
@@ -26,14 +24,16 @@ app.get("/", (ctx) => {
 	return ctx.html("We are live!");
 });
 app.get("/api/students", async (ctx) => {
-	return ctx.json(JSON.stringify(students));
+	return ctx.json(JSON.stringify(await students.read()));
 });
 app.put("/api/students", async (ctx) => {
 	let data = await ctx.req.json();
-	students.push({ id: students.length + 1, name: data.name });
+	let studentsData = await students.read();
+	studentsData.push({ id: studentsData.length + 1, name: data.name });
+	students.write(studentsData);
 	return ctx.json({ message: "Added student successfully" });
 });
-const port = 3999;
+const port = config.port;
 console.log(`Server is running on port ${port}`);
 
 serve({

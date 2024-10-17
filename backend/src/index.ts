@@ -45,7 +45,7 @@ app.patch("/api/students/:id", async (ctx) => {
 	let data = await ctx.req.json();
 	let id = Number(await ctx.req.param("id"));
 	let studentsData = await students.read();
-	let student = studentsData.find((student) => student.id === id);
+	let student = studentsData.find((student) => Number(student.id) === id);
 	if (student) {
 		student.name = data.name;
 		students.write(studentsData);

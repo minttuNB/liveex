@@ -4,6 +4,7 @@ import { cors } from "hono/cors";
 import config from "./config/config";
 import { readFile, writeFile } from "fs/promises";
 import { UUID } from "crypto";
+import { validateName } from "./lib/validators";
 type Student = {
 	id: UUID;
 	name: string;
@@ -17,10 +18,6 @@ const students = {
 			encoding: "utf-8",
 		});
 	},
-};
-const validateName = (name: string) => {
-	name = name.trim();
-	return name.length > 4 && name.includes(" ") && name[name.length - 1] === "!";
 };
 const app = new Hono();
 app.use("*", cors());

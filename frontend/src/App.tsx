@@ -15,7 +15,7 @@ function App() {
 		try {
 			setLoading(true);
 			const response = await fetch(new URL(`${config.apiAddress}:${config.apiPort}/api/students`));
-			const studentsList: StudentProps[] = await response.json();
+			const studentsList: StudentProps[] = JSON.parse(await response.json());
 			setLoading(false);
 			setStudents(studentsList);
 			setStudentsFetchingError("");
@@ -30,7 +30,7 @@ function App() {
 	}, []);
 	console.log(students);
 	const filterOptions =
-		students.length > 0
+		students && students.length > 0
 			? [...new Set(students.map((student: StudentProps) => student.name.slice(0, 1).toUpperCase()))].sort()
 			: [];
 	function onAddStudent(event: React.FormEvent<HTMLFormElement>) {

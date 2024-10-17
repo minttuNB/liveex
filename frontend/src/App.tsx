@@ -39,6 +39,19 @@ function App() {
 		}
 		fetchStudentData();
 	}
+	async function addStudentData(student: Partial<StudentProps>) {
+		const url = new URL(`${config.apiAddress}:${config.apiPort}/api/students`);
+		const response = await fetch(url, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ name: student.name }),
+		});
+		if (response.status === 400) {
+			alert(`An error has occured: ${(await response.json()).error}`);
+		} else fetchStudentData();
+	}
 	useEffect(() => {
 		fetchStudentData();
 	}, []);
@@ -49,11 +62,10 @@ function App() {
 			: [];
 	function onAddStudent(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
-		const stud: StudentProps = {
-			id: crypto.randomUUID(),
+		const stud: Partial<StudentProps> = {
 			name: document.querySelector<HTMLInputElement>("#studentName")!.value,
 		};
-		setStudents((students) => [...students, stud]);
+		addStudentData(stud);
 	}
 	function onRemoveStudent(id: string) {
 		setStudents((students) => students.filter((student) => student.id !== id));

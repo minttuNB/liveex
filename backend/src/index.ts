@@ -3,12 +3,8 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import config from "./config/config";
 import { readFile, writeFile } from "fs/promises";
-import { UUID } from "crypto";
 import { validateName } from "./lib/validators";
-type Student = {
-	id: UUID;
-	name: string;
-};
+import { Student } from "./types";
 const students = {
 	read: async () => {
 		return JSON.parse(await readFile("./src/data/students.json", "utf-8")) as Student[];
@@ -37,7 +33,7 @@ app.put("/api/students", async (ctx) => {
 	let studentsData = await students.read();
 	studentsData.push({ id: crypto.randomUUID(), name: data.name });
 	students.write(studentsData);
-	return ctx.json({ success: true, message: "Added student successfully" });
+	return ctx.json({ success: true, data: "Added student successfully" });
 });
 app.delete("/api/students/:id", async (ctx) => {
 	let id = await ctx.req.param("id");
@@ -63,7 +59,7 @@ app.patch("/api/students/:id", async (ctx) => {
 		return ctx.body(null);
 	} else {
 		ctx.status(400);
-		return ctx.json({ success: false, message: "Student with given id not found" });
+		return ctx.json({ success: false, error: "Student with given id not found" });
 	}
 });
 const port = config.port;

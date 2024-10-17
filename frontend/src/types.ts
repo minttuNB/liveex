@@ -1,6 +1,6 @@
 type SuccessResponse = {
 	success: true;
-	data: object;
+	data: string | object;
 };
 type FailureResponse = {
 	success: false;

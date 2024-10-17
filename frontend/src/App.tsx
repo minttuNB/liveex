@@ -52,6 +52,15 @@ function App() {
 			alert(`An error has occured: ${(await response.json()).error}`);
 		} else fetchStudentData();
 	}
+	async function removeStudentData(student: Partial<StudentProps>) {
+		const url = new URL(`${config.apiAddress}:${config.apiPort}/api/students/${student.id}`);
+		const response = await fetch(url, {
+			method: "DELETE",
+		});
+		if (response.status === 400) {
+			alert(`An error has occured: ${(await response.json()).error}`);
+		} else fetchStudentData();
+	}
 	useEffect(() => {
 		fetchStudentData();
 	}, []);
@@ -68,7 +77,7 @@ function App() {
 		addStudentData(stud);
 	}
 	function onRemoveStudent(id: string) {
-		setStudents((students) => students.filter((student) => student.id !== id));
+		removeStudentData({ id: id });
 	}
 	function onChangeName(event: React.FocusEvent<HTMLHeadingElement>, id: string) {
 		const newName = event.target.innerText;

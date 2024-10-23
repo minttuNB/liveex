@@ -1,0 +1,28 @@
+{
+	"students": [
+		{
+			"id": "6b466c65-c28e-4556-a6cc-9cda4814020a",
+			"name": "Anders",
+			"createdAt": "2024-10-17T11:17:34.418Z",
+			"updatedAt": "2024-10-17T11:17:34.418Z"
+		},
+		{
+			"id": "297b1a24-1f8c-478f-ac83-6d92a3f7bd45",
+			"name": "Espen",
+			"createdAt": "2024-10-17T11:17:34.418Z",
+			"updatedAt": "2024-10-17T11:17:34.418Z"
+		},
+		{
+			"id": "92f63afe-c2c8-4512-8089-8ef4da6b8cdb",
+			"name": "Ada",
+			"createdAt": "2024-10-17T11:17:34.418Z",
+			"updatedAt": "2024-10-17T11:17:34.418Z"
+		},
+		{
+			"id": "ac9086cd-fd28-4438-a779-4c1aee30e868",
+			"name": "Aine",
+			"createdAt": "2024-10-17T11:17:34.418Z",
+			"updatedAt": "2024-10-17T11:17:34.418Z"
+		}
+	]
+}

@@ -1,8 +1,8 @@
 {
 	"name": "backend",
 	"scripts": {
-		"dev": "tsx watch src/index.ts",
-		"db:setup": "tsx src/db/index.ts"
+		"dev": "tsx --env-file=.env watch src/index.ts",
+		"db:setup": "tsx --env-file=.env src/db/index.ts"
 	},
 	"dependencies": {
 		"@hono/node-server": "^1.13.0",
